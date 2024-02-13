@@ -34,7 +34,9 @@ const Select = forwardRef<HTMLSelectElement, TSelectProps>(
     return (
       <div className="flex flex-col gap-1">
         {!!label ? (
-          <label className="text-[#667085] font-semibold">{label}</label>
+          <label className="text-[#667085] md:text-base text-sm font-semibold">
+            {label}
+          </label>
         ) : null}
         <div
           className={twMerge(
@@ -50,7 +52,7 @@ const Select = forwardRef<HTMLSelectElement, TSelectProps>(
         >
           <select
             ref={ref}
-            className="w-full h-full outline-none bg-transparent"
+            className="w-full h-full md:text-base text-sm outline-none bg-transparent"
             disabled={disabled}
             {...props}
           >

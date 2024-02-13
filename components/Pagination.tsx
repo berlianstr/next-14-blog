@@ -10,7 +10,7 @@ const Pagination = ({
 }) => {
   const router = useRouter();
   return (
-    <div className="flex items-center justify-center gap-3 ">
+    <div className="flex items-center justify-center gap-2 ">
       <Button
         onClick={() => router.push(`?page=${currentPage - 1}`)}
         className={`border border-gray-300 p-2 bg-white text-black rounded-l-md hover:bg-primary-300 hover:text-white ${
@@ -19,7 +19,7 @@ const Pagination = ({
             : ""
         }`}
         disabled={currentPage === 1}
-        label="Previous"
+        label="Prev"
       />
       <div className="flex items-center justify-center space-x-2">
         {[...Array(totalPage)].map((_, index) => (

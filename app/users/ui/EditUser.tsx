@@ -4,7 +4,7 @@ import ModalForm from "@/components/Modal/ModalForm";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
 import { updateUser } from "@/utils/service";
 import { IUserProps } from "@/utils/types";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import FormUser from "./FormUser";
 import { Edit3Icon } from "lucide-react";
@@ -12,7 +12,6 @@ import { useRouter } from "next/navigation";
 
 export default function EditUser({ dataUser }: { dataUser: IUserProps }) {
   const router = useRouter();
-  const formRef = useRef<HTMLFormElement | null>(null);
   const { register, handleSubmit } = useForm<IUserProps>({
     values: {
       // id: dataUser.id,
@@ -37,8 +36,10 @@ export default function EditUser({ dataUser }: { dataUser: IUserProps }) {
         setLoading(false);
         setOpenModal(false);
         setOpenModalSuccess(true);
-        formRef.current?.reset();
-        router.refresh();
+        setTimeout(() => {
+          setOpenModalSuccess(false);
+          router.refresh();
+        }, 1000);
       } catch (error) {
         setOpenModalSuccess(false);
         setLoading(false);
@@ -58,7 +59,7 @@ export default function EditUser({ dataUser }: { dataUser: IUserProps }) {
       </div>
       <ModalForm
         title="Update User"
-        className="w-[500px]"
+        className="md:w-[500px] lg:h-auto md:h-[400px] w-[400px] h-[300px]"
         open={openModal}
         setClose={() => {
           setOpenModal(false);
@@ -73,7 +74,7 @@ export default function EditUser({ dataUser }: { dataUser: IUserProps }) {
       </ModalForm>
       <ModalSuccess
         open={openModalSuccess}
-        setOpen={setOpenModalSuccess}
+        // setOpen={setOpenModalSuccess}
         message="Data Updated Successfully!"
       />
     </div>

@@ -6,7 +6,7 @@ export default async function Home() {
   const allBlogs = await fetchBlogs();
   return (
     <div className="relative flex flex-col gap-8 py-8">
-      <Container className="pt-20 flex flex-col md:flex-row justify-between max-w-screen-xl mx-auto  items-center ">
+      <Container className="pt-20 flex flex-col-reverse md:flex-row justify-between max-w-screen-xl mx-auto  items-center ">
         <div className={`md:w-6/12   md:-order-last`}>
           <h2 className="font-display text-4xl font-black text-secondary-500 md:text-3xl lg:text-5xl tracking-wide mt-4 lg:leading-tight text-left">
             {allBlogs[0]?.title}

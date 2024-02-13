@@ -2,7 +2,6 @@
 import Button from "@/components/Button";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
 import { deleteUser } from "@/utils/service";
-import { IUserProps } from "@/utils/types";
 import { useState } from "react";
 import { Trash2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -24,11 +23,13 @@ export default function DeleteUser({ id }: { id: number }) {
         setLoading(false);
         setOpenModalDelete(false);
         setOpenModalSuccess(true);
+        setTimeout(() => {
+          setOpenModalSuccess(false);
+          router.refresh();
+        }, 1000);
       } catch (error) {
         setOpenModalDelete(false);
         setLoading(false);
-        router.refresh();
-        setOpenModalSuccess(true);
         console.log("error", error);
       }
     }
@@ -46,7 +47,7 @@ export default function DeleteUser({ id }: { id: number }) {
       </div>
       <ModalSuccess
         open={openModalSuccess}
-        setOpen={setOpenModalSuccess}
+        // setOpen={setOpenModalSuccess}
         message="Data Updated Successfully!"
       />
       <ModalDelete
