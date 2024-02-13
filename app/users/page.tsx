@@ -1,6 +1,6 @@
 // "use client";
 import Container from "@/components/Container";
-import React from "react";
+import React, { Suspense } from "react";
 import TableUser from "./TableUser";
 import { fetchUsers } from "@/utils/service";
 import Pagination from "@/components/Pagination";
@@ -18,12 +18,21 @@ export default async function page(context: {
     query
   );
   return (
-    <Container className="py-20 bg-white h-screen">
+    <Container className="py-20 bg-white min-h-screen">
       <div className="flex items-center justify-between">
         <SearchUser />
         <AddUser />
       </div>
-      <TableUser data={allUsers} />
+      <Suspense
+        key={query + context.searchParams.page}
+        fallback={
+          <div className="flex justify-center items-start h-screen">
+            <p className="text-center">Loading...</p>
+          </div>
+        }
+      >
+        <TableUser data={allUsers} />
+      </Suspense>
       <Pagination
         totalPage={5}
         currentPage={Number(context.searchParams.page)}
