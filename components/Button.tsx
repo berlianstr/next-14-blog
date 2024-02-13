@@ -28,7 +28,7 @@ const Button: React.FC<TButtonProps> = ({
       ) : (
         <button
           className={twMerge(
-            `bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center`,
+            `bg-primary-500 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded flex justify-center md:text-base text-sm items-center`,
             className
           )}
           disabled={disabled}

@@ -33,7 +33,9 @@ const Input = forwardRef<HTMLInputElement, TInputProps>(
     return (
       <div className="flex flex-col gap-1 flex-grow">
         {!!label ? (
-          <label className="text-[#667085] font-semibold">{label}</label>
+          <label className="text-[#667085] md:text-base text-sm font-semibold">
+            {label}
+          </label>
         ) : null}
         <div
           className={twMerge(
@@ -52,7 +54,7 @@ const Input = forwardRef<HTMLInputElement, TInputProps>(
             {...props}
             disabled={disabled}
             required={required}
-            className={`h-full flex-1 outline-none text-[#514E4E] bg-transparent font-semibold w-full border focus:outline-none rounded-md focus:border-primary-500 focus:ring-primary-500 px-2`}
+            className={`h-full flex-1 md:text-base text-sm  outline-none text-[#514E4E] bg-transparent font-semibold w-full border focus:outline-none rounded-md focus:border-primary-500 focus:ring-primary-500 px-2`}
           />
         </div>
       </div>

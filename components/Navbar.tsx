@@ -69,13 +69,13 @@ const Navbar: React.FC = () => {
             {isMenuOpen && (
               <div className="flex gap-5">
                 <Link
-                  href="/users"
+                  href="/users?page=1"
                   className="text-sm leading-6 font-medium text-secondary-500 hover:text-primary-500 border-transparent border-b-2 hover:border-primary-500 hover:border-b-primary hover:border-b-2 focus:outline-none focus:text-primary-500 transition duration-30"
                 >
                   Users
                 </Link>
                 <Link
-                  href="/blog"
+                  href="/blog?page=1"
                   className="text-sm leading-6 font-medium text-secondary-500 hover:text-primary-500 border-transparent border-b-2 hover:border-primary-500 hover:border-b-primary hover:border-b-2 focus:outline-none focus:text-primary-500 transition duration-30"
                 >
                   Blog

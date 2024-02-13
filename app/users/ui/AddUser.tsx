@@ -32,7 +32,10 @@ export default function AddUser() {
       setOpenModalSuccess(true);
       setOpenModal(false);
       formRef.current?.reset();
-      router.refresh();
+      setTimeout(() => {
+        setOpenModalSuccess(false);
+        router.refresh();
+      }, 1000);
     } catch (error) {
       setOpenModalSuccess(false);
       setLoading(false);
@@ -42,14 +45,14 @@ export default function AddUser() {
   return (
     <div>
       <Button
-        className="w-fit"
-        label="Create New User"
+        className="w-fit md:text-base text-md h-fit"
+        label="Create"
         type="button"
         onClick={() => setOpenModal(true)}
       />
       <ModalForm
         title="Create New User"
-        className="w-[500px]"
+        className="md:w-[500px] lg:h-auto md:h-[400px] w-[400px] h-[300px]"
         open={openModal}
         setClose={() => {
           setOpenModal(false), formRef.current?.reset();
@@ -65,7 +68,7 @@ export default function AddUser() {
       </ModalForm>
       <ModalSuccess
         open={openModalSuccess}
-        setOpen={setOpenModalSuccess}
+        // setOpen={setOpenModalSuccess}
         message="Data Created Successfully!"
       />
     </div>

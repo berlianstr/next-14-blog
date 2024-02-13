@@ -1,11 +1,11 @@
 // "use client";
 import Container from "@/components/Container";
 import React, { Suspense } from "react";
-import TableUser from "./TableUser";
+import TableUser from "./ui/TableUser";
 import { fetchUsers } from "@/utils/service";
 import Pagination from "@/components/Pagination";
-import AddUser from "./AddUser";
-import SearchUser from "./SearchUser";
+import AddUser from "./ui/AddUser";
+import SearchUser from "./ui/SearchUser";
 
 export default async function page(context: {
   params: {};

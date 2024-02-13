@@ -118,18 +118,11 @@ export async function updateUser(id: number, data: IUserProps) {
   return result;
 }
 export async function deleteUser(id: number) {
-  const response = await fetch(`https://gorest.co.in/public/v2/users/${id}`, {
+  await fetch(`https://gorest.co.in/public/v2/users/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_GOREST_API_KEY}`,
     },
   });
-
-  if (!response.ok) {
-    throw new Error("Failed to send data");
-  }
-
-  const result = await response.json();
-  return result;
 }
