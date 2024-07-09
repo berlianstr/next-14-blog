@@ -2,22 +2,31 @@
 import Button from "@/components/Button";
 import ModalForm from "@/components/Modal/ModalForm";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
-import { addUser } from "@/utils/service";
 import { IUserProps } from "@/utils/types";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormUser from "./FormUser";
+import { cleanAndCapitalize } from "@/utils";
 
-export default function AddUser() {
+interface AddUserProps {
+  setUsers: React.Dispatch<React.SetStateAction<IUserProps[]>>;
+}
+
+export default function AddUser({ setUsers }: AddUserProps) {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement | null>(null);
-  const { register, handleSubmit } = useForm<IUserProps>({
+  const {
+    register,
+    watch,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<IUserProps>({
     values: {
       name: "",
       email: "",
-      gender: "",
-      status: "active",
+      message: "",
     },
   });
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -26,22 +35,36 @@ export default function AddUser() {
 
   const onSubmit = async (data: IUserProps) => {
     setLoading(true);
-    try {
-      await addUser(data);
-      setLoading(false);
-      setOpenModalSuccess(true);
-      setOpenModal(false);
-      formRef.current?.reset();
-      setTimeout(() => {
-        setOpenModalSuccess(false);
-        router.refresh();
-      }, 1000);
-    } catch (error) {
-      setOpenModalSuccess(false);
-      setLoading(false);
-      console.log("error", error);
-    }
+
+    // Clean and format the input values
+    const cleanedData: IUserProps = {
+      name: cleanAndCapitalize(data.name),
+      email: data.email.trim(),
+      message: cleanAndCapitalize(data.message),
+    };
+
+    // Fetch existing users from localStorage
+    const storedUsers = localStorage.getItem("users");
+    const users = storedUsers ? JSON.parse(storedUsers) : [];
+
+    // Add new user to the list
+    users.push(cleanedData);
+
+    // Save updated list to localStorage
+    localStorage.setItem("users", JSON.stringify(users));
+
+    // Update the users state to trigger a re-render
+    setUsers(users);
+
+    setLoading(false);
+    setOpenModal(false);
+    setOpenModalSuccess(true);
+
+    // Refresh the page or trigger a re-fetch
+    reset();
+    router.refresh();
   };
+
   return (
     <div>
       <Button
@@ -60,15 +83,17 @@ export default function AddUser() {
       >
         <FormUser
           formRef={formRef}
+          errors={errors}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
+          messageLength={watch("message").length}
           loading={loading}
           register={register}
         />
       </ModalForm>
       <ModalSuccess
         open={openModalSuccess}
-        // setOpen={setOpenModalSuccess}
+        setOpen={setOpenModalSuccess}
         message="Data Created Successfully!"
       />
     </div>

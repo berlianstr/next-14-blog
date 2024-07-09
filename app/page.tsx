@@ -9,10 +9,10 @@ export default async function Home() {
       <Container className="pt-20 flex flex-col-reverse md:flex-row justify-between max-w-screen-xl mx-auto  items-center ">
         <div className={`md:w-6/12   md:-order-last`}>
           <h2 className="font-display text-4xl font-black text-secondary-500 md:text-3xl lg:text-5xl tracking-wide mt-4 lg:leading-tight text-left">
-            {allBlogs[0]?.title}
+            {allBlogs.posts[0]?.title}
           </h2>
           <p className="mt-4 text-left text-sm md:text-base lg:text-lg font-medium leading-relaxed text-secondary-200">
-            {allBlogs[0]?.body}
+            {allBlogs.posts[0]?.body}
           </p>
         </div>
         <div className="md:w-6/12 w-full flex-col md:h-[500px] h-[300px] flex-shrink-0 relative bg-gray-100 ">
@@ -24,7 +24,7 @@ export default async function Home() {
             }
             fill
             className="rounded-lg object-cover object-center mb-9"
-            alt={allBlogs[0]?.title}
+            alt={allBlogs.posts[0]?.title}
           />
         </div>
       </Container>

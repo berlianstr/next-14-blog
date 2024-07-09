@@ -1,38 +1,40 @@
 "use client";
 import Button from "@/components/Button";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
-import { deleteUser } from "@/utils/service";
 import { useState } from "react";
 import { Trash2Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import ModalDelete from "@/components/Modal/ModalConfirm";
+import { IUserProps } from "@/utils/types";
 
-export default function DeleteUser({ id }: { id: number }) {
-  const router = useRouter();
+interface DeleteUserProps {
+  email: string;
+  setUsers: React.Dispatch<React.SetStateAction<IUserProps[]>>;
+}
+
+export default function DeleteUser({ email, setUsers }: DeleteUserProps) {
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
   const [openModalSuccess, setOpenModalSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  //   console.log(dataUser);
-
   const onDelete = async () => {
-    if (!!id) {
-      setLoading(true);
-      try {
-        await deleteUser(id);
-        setLoading(false);
-        setOpenModalDelete(false);
-        setOpenModalSuccess(true);
-        setTimeout(() => {
-          setOpenModalSuccess(false);
-          router.refresh();
-        }, 1000);
-      } catch (error) {
-        setOpenModalDelete(false);
-        setLoading(false);
-        console.log("error", error);
-      }
-    }
+    setLoading(true);
+
+    // Fetch existing users from localStorage
+    const storedUsers = localStorage.getItem("users");
+    const users: IUserProps[] = storedUsers ? JSON.parse(storedUsers) : [];
+
+    // Filter out the user to be deleted
+    const updatedUsers = users.filter((user) => user.email !== email);
+
+    // Save updated list to localStorage
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+    // Update the users state to trigger a re-render
+    setUsers(updatedUsers);
+
+    setLoading(false);
+    setOpenModalDelete(false);
+    setOpenModalSuccess(true);
   };
 
   return (
@@ -47,13 +49,13 @@ export default function DeleteUser({ id }: { id: number }) {
       </div>
       <ModalSuccess
         open={openModalSuccess}
-        // setOpen={setOpenModalSuccess}
-        message="Data Updated Successfully!"
+        setOpen={setOpenModalSuccess}
+        message="Data Deleted Successfully!"
       />
       <ModalDelete
         open={openModalDelete}
         loading={loading}
-        onDeleteConfirm={() => onDelete()}
+        onDeleteConfirm={onDelete}
         onDeleteCancel={() => setOpenModalDelete(false)}
       />
     </div>

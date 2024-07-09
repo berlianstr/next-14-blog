@@ -1,16 +1,18 @@
 import { CheckIcon } from "lucide-react";
 import ModalContainer from "./ModalContainer";
+import Button from "../Button";
 // import Button from "../Button";
 
 export default function ModalSuccess({
   open,
-  // setOpen,
+  setOpen,
   message,
+  fn = () => null,
 }: // fn = () => null,
 {
   open: boolean;
   message?: string;
-  // setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   fn?: () => void;
 }) {
   return (
@@ -26,13 +28,13 @@ export default function ModalSuccess({
           <span className="text-[#393737] text-[16px]">{message}</span>
         </div>
         <div className="flex gap-3 w-full justify-center">
-          {/* <Button
-            label="Close"
+          <Button
+            label="OK"
             onClick={() => {
               setOpen(false);
               fn();
             }}
-          /> */}
+          />
         </div>
       </div>
     </ModalContainer>
