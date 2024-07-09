@@ -7,9 +7,11 @@ import { IBlogsProps } from "@/utils/types";
 import Container from "@/components/Container";
 export default async function BlogPage(context: {
   params: {};
-  searchParams: { page: string };
+  searchParams: { page: number };
 }) {
-  const allBlogs = await fetchBlogs(Number(context.searchParams.page));
+  const allBlogs2 = await fetchBlogs(
+    context.searchParams.page == 1 ? 0 : (context.searchParams.page - 1) * 10
+  );
   return (
     <Suspense
       fallback={
@@ -20,7 +22,7 @@ export default async function BlogPage(context: {
     >
       <Container className="py-20">
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 ">
-          {allBlogs?.map((blog: IBlogsProps) => (
+          {allBlogs2.posts?.map((blog: IBlogsProps) => (
             <Card
               id={blog.id.toString()}
               key={blog.id}

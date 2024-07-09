@@ -2,23 +2,29 @@
 import Button from "@/components/Button";
 import ModalForm from "@/components/Modal/ModalForm";
 import ModalSuccess from "@/components/Modal/ModalSuccess";
-import { updateUser } from "@/utils/service";
 import { IUserProps } from "@/utils/types";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import FormUser from "./FormUser";
 import { Edit3Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { cleanAndCapitalize } from "@/utils";
+interface TableUserProps {
+  dataUser: IUserProps;
+  setUsers: React.Dispatch<React.SetStateAction<IUserProps[]>>;
+}
 
-export default function EditUser({ dataUser }: { dataUser: IUserProps }) {
-  const router = useRouter();
-  const { register, handleSubmit } = useForm<IUserProps>({
+export default function EditUser({ dataUser, setUsers }: TableUserProps) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<IUserProps>({
     values: {
       // id: dataUser.id,
       name: dataUser.name,
       email: dataUser.email,
-      gender: dataUser.gender,
-      status: dataUser.status,
+      message: dataUser.message,
     },
   });
 
@@ -29,23 +35,34 @@ export default function EditUser({ dataUser }: { dataUser: IUserProps }) {
   //   console.log(dataUser);
 
   const onSubmit = async (data: IUserProps) => {
-    if (!!dataUser.id) {
-      setLoading(true);
-      try {
-        await updateUser(dataUser.id, data);
-        setLoading(false);
-        setOpenModal(false);
-        setOpenModalSuccess(true);
-        setTimeout(() => {
-          setOpenModalSuccess(false);
-          router.refresh();
-        }, 1000);
-      } catch (error) {
-        setOpenModalSuccess(false);
-        setLoading(false);
-        console.log("error", error);
-      }
+    setLoading(true);
+
+    // Fetch existing users from localStorage
+    const storedUsers = localStorage.getItem("users");
+    const users: IUserProps[] = storedUsers ? JSON.parse(storedUsers) : [];
+
+    // Find the index of the user being edited
+    const userIndex = users.findIndex((user) => user.email === dataUser.email);
+
+    // Update the user details
+    if (userIndex !== -1) {
+      users[userIndex] = {
+        ...users[userIndex],
+        name: cleanAndCapitalize(data.name),
+        email: data.email.trim(),
+        message: cleanAndCapitalize(data.message),
+      };
     }
+
+    // Save updated list to localStorage
+    localStorage.setItem("users", JSON.stringify(users));
+
+    // Update the users state to trigger a re-render
+    setUsers(users);
+
+    setLoading(false);
+    setOpenModal(false);
+    setOpenModalSuccess(true);
   };
   return (
     <div>
@@ -66,6 +83,7 @@ export default function EditUser({ dataUser }: { dataUser: IUserProps }) {
         }}
       >
         <FormUser
+          errors={errors}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
           loading={loading}
@@ -74,7 +92,7 @@ export default function EditUser({ dataUser }: { dataUser: IUserProps }) {
       </ModalForm>
       <ModalSuccess
         open={openModalSuccess}
-        // setOpen={setOpenModalSuccess}
+        setOpen={setOpenModalSuccess}
         message="Data Updated Successfully!"
       />
     </div>

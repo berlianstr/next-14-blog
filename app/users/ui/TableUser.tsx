@@ -4,7 +4,12 @@ import React from "react";
 import EditUser from "./EditUser";
 import DeleteUser from "./DeleteUser";
 
-export default async function TableUser({ data }: { data: IUserProps[] }) {
+interface TableUserProps {
+  data: IUserProps[];
+  setUsers: React.Dispatch<React.SetStateAction<IUserProps[]>>;
+}
+
+const TableUser: React.FC<TableUserProps> = ({ data, setUsers }) => {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
@@ -26,13 +31,7 @@ export default async function TableUser({ data }: { data: IUserProps[] }) {
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Gender
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Status
+              Message
             </th>
             <th
               scope="col"
@@ -43,8 +42,8 @@ export default async function TableUser({ data }: { data: IUserProps[] }) {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {data?.map((user: IUserProps) => (
-            <tr className="hover:bg-gray-100" key={user.id}>
+          {data?.map((user: IUserProps, index) => (
+            <tr className="hover:bg-gray-100" key={index}>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {user.name}
               </td>
@@ -52,30 +51,12 @@ export default async function TableUser({ data }: { data: IUserProps[] }) {
                 {user.email}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
-                {user.gender}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <div className="flex items-center  gap-2">
-                  <div
-                    className={`h-2 w-2 ${
-                      user.status === "active" ? "bg-[#12B569]" : "bg-[#858D9D]"
-                    } rounded-full `}
-                  />
-                  <p
-                    className={`capitalize ${
-                      user.status === "active"
-                        ? "text-[#313030]"
-                        : "text-[#858D9D]"
-                    }`}
-                  >
-                    {user.status}
-                  </p>
-                </div>
+                {user.message}
               </td>
               <td className="text-start p-4 text-base text-[#313030] h-[42px] w-0">
                 <div className="flex items-center gap-2">
-                  <EditUser dataUser={user} />
-                  <DeleteUser id={user.id || 0} />
+                  <EditUser dataUser={user} setUsers={setUsers} />
+                  <DeleteUser email={user.email} setUsers={setUsers} />
                 </div>
               </td>
             </tr>
@@ -84,4 +65,6 @@ export default async function TableUser({ data }: { data: IUserProps[] }) {
       </table>
     </div>
   );
-}
+};
+
+export default TableUser;

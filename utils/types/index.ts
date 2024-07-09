@@ -9,7 +9,11 @@ export interface IBlogsProps {
 export interface ICommentProps {
   id: string;
   post_id: string;
-  name: string;
+  user: {
+    id: string;
+    username: string;
+    fullName: string;
+  };
   email: string;
   body: string;
 }
@@ -17,7 +21,6 @@ export interface ICommentProps {
 export interface IUserProps {
   id?: number;
   name: string;
-  gender: string;
+  message: string;
   email: string;
-  status: string;
 }
