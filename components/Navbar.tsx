@@ -26,16 +26,16 @@ const Navbar: React.FC = () => {
           </div>
           <div className="md:flex hidden  gap-5">
             <Link
-              href="/blog?page=1"
+              href="/pokemon"
               className="text-base leading-6 font-medium text-secondary-500 hover:text-primary-500 border-transparent border-b-2 hover:border-primary-500 hover:border-b-primary hover:border-b-2 focus:outline-none focus:text-primary-500 transition duration-300"
             >
-              Blog
+              Pokemon
             </Link>
             <Link
-              href="/users?page=1"
+              href="/myPokemon"
               className="text-base leading-6 font-medium text-secondary-500 hover:text-primary-500 border-transparent border-b-2 hover:border-primary-500 hover:border-b-primary hover:border-b-2 focus:outline-none focus:text-primary-500 transition duration-300"
             >
-              Users
+              My Pokemon
             </Link>
           </div>
           <div className="flex md:hidden items-center gap-5">
@@ -69,10 +69,10 @@ const Navbar: React.FC = () => {
             {isMenuOpen && (
               <div className="flex gap-5">
                 <Link
-                  href="/users?page=1"
+                  href="/myPokemon"
                   className="text-sm leading-6 font-medium text-secondary-500 hover:text-primary-500 border-transparent border-b-2 hover:border-primary-500 hover:border-b-primary hover:border-b-2 focus:outline-none focus:text-primary-500 transition duration-30"
                 >
-                  Users
+                  My Pokemon
                 </Link>
                 <Link
                   href="/blog?page=1"
