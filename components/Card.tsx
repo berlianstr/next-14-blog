@@ -23,7 +23,7 @@ const Card: React.FC<{
       </div>
       <div className="absolute bottom-0 right-0 mb-4 mr-4 ">
         <Link
-          href={`blog/${id}`}
+          href={`pokemon/${id}`}
           className="text-primary-700 hover:text-primary-500"
         >
           Details

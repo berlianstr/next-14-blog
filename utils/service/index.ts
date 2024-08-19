@@ -1,9 +1,9 @@
-import { IUserProps } from "../types";
+// import { IUserProps } from "../types";
 
-export async function fetchBlogs(skip: number = 0) {
+export async function fetchPokemon(limit: number = 0) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_DUMMY_API}posts?limit=6&skip=${skip}`,
+      `${process.env.NEXT_PUBLIC_DUMMY_API}pokemon?limit=${limit}`,
       { cache: "no-store" }
     );
 
@@ -18,16 +18,17 @@ export async function fetchBlogs(skip: number = 0) {
   }
 }
 
-export async function fetchBlogDetails(blogId: number) {
+export async function fetchPokemonDetails(id: string) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_DUMMY_API}posts/${blogId}`
+      `${process.env.NEXT_PUBLIC_DUMMY_API}pokemon/${id}`
     );
     if (!response.ok) {
       // This will activate the closest `error.js` Error Boundary
       throw new Error("Failed to fetch data");
     }
     const result = await response.json();
+    console.log("ini", result);
     return result;
   } catch (error) {
     console.log("error", error);
