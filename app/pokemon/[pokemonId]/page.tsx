@@ -36,7 +36,7 @@ export default function DetailBlogs({
 
   const handleAddToMyList = () => {
     const myPokemonList =
-      JSON.parse(localStorage.getItem("myPokemonList") || "") || [];
+      JSON.parse(localStorage.getItem("myPokemonList")!) || [];
     const newPokemon = { id: pokemon.id, name: pokemon.name, nickname };
     myPokemonList.push(newPokemon);
     localStorage.setItem("myPokemonList", JSON.stringify(myPokemonList));
