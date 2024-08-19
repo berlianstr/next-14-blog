@@ -75,10 +75,10 @@ const Navbar: React.FC = () => {
                   My Pokemon
                 </Link>
                 <Link
-                  href="/blog?page=1"
+                  href="/pokemon"
                   className="text-sm leading-6 font-medium text-secondary-500 hover:text-primary-500 border-transparent border-b-2 hover:border-primary-500 hover:border-b-primary hover:border-b-2 focus:outline-none focus:text-primary-500 transition duration-30"
                 >
-                  Blog
+                  Pokemon
                 </Link>
               </div>
             )}
