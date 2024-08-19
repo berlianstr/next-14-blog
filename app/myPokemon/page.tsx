@@ -9,7 +9,7 @@ export default function MyPokemonList() {
 
   useEffect(() => {
     const storedPokemonList =
-      JSON.parse(localStorage.getItem("myPokemonList") || "") || [];
+      JSON.parse(localStorage.getItem("myPokemonList")!) || [];
     setMyPokemonList(storedPokemonList);
   }, []);
 
